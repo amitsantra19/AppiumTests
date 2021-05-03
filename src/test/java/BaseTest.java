@@ -18,7 +18,7 @@ public class BaseTest {
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "AmitEmulator");
         capabilities.setCapability(MobileCapabilityType.APP, demoApk.getAbsolutePath());
         try {
-        AndroidDriver<AndroidElement> driver = new AndroidDriver(new URL("https://127.0.0.1:4723/wb/hub"), capabilities);
+        AndroidDriver<AndroidElement> driver = new AndroidDriver<>(new URL("http://127.0.0.1:4723/wb/hub"), capabilities);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -29,7 +29,7 @@ public class BaseTest {
     @Test
     public void MyFirstTest()
     {
-
+        System.out.println("Test1");
     }
 
 }
