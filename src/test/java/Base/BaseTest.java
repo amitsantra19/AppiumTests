@@ -12,7 +12,7 @@ import java.io.File;
 import java.net.URL;
 
 public class BaseTest {
-    AndroidDriver<AndroidElement> driver = null;
+    public AndroidDriver<AndroidElement> driver = null;
     @BeforeSuite
     public void setUp() {
         File src = new File("src");
