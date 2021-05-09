@@ -2,8 +2,7 @@ package AndroidTests;
 import Base.BaseTest;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidElement;
-import io.appium.java_client.touch.TapOptions;
-import io.appium.java_client.touch.offset.ElementOption;
+import io.appium.java_client.touch.offset.PointOption;
 import org.testng.annotations.Test;
 
 import static io.appium.java_client.touch.TapOptions.tapOptions;
@@ -51,8 +50,8 @@ public class AndroidTest extends BaseTest {
     }
 
     @Test
-    public void verifyMobileGestureTapByLocators(){
-        try{
+    public void verifyMobileGestureTapByLocators() {
+        try {
             driver.findElementByAndroidUIAutomator("text(\"Views\")").click();
             Thread.sleep(1000);
             //Tap on mobile element
@@ -63,11 +62,30 @@ public class AndroidTest extends BaseTest {
             AndroidElement inlineMenu = driver.findElementByAndroidUIAutomator("text(\"2. Inline\")");
             touchAction.tap(tapOptions().withElement(element(inlineMenu))).perform();
             Thread.sleep(1000);
-        }catch (Exception e)
-        {
+            // Tap on a specific coordinates of an element
+            AndroidElement clock5 = driver.findElementByClassName("android.widget.RadialTimePickerView$RadialPickerTouchHelper");
+            touchAction.tap(tapOptions().withElement(element(clock5)).withPosition(new PointOption<>().withCoordinates(922,1266))).perform();
+            Thread.sleep(2000);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+        @Test
+        public void verifyMobileGestureLongPress() {
+            try {
+                driver.findElementByAndroidUIAutomator("text(\"Views\")").click();
+                Thread.sleep(1000);
+                //Tap on mobile element
+                TouchAction<?> touchAction = new TouchAction<>(driver);
+                AndroidElement dateWidget = driver.findElementByAndroidUIAutomator("text(\"Date Widgets\")");
+                touchAction.tap(tapOptions().withElement(element(dateWidget))).perform();
+                Thread.sleep(1000);
+                AndroidElement inlineMenu = driver.findElementByAndroidUIAutomator("text(\"2. Inline\")");
+                touchAction.tap(tapOptions().withElement(element(inlineMenu))).perform();
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-
+        }
 }
