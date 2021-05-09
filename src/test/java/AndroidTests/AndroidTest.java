@@ -1,7 +1,13 @@
 package AndroidTests;
 import Base.BaseTest;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidElement;
+import io.appium.java_client.touch.TapOptions;
+import io.appium.java_client.touch.offset.ElementOption;
 import org.testng.annotations.Test;
+
+import static io.appium.java_client.touch.TapOptions.tapOptions;
+import static io.appium.java_client.touch.offset.ElementOption.element;
 
 public class AndroidTest extends BaseTest {
     @Test
@@ -33,9 +39,9 @@ public class AndroidTest extends BaseTest {
             Thread.sleep(1000);
             driver.findElementByAndroidUIAutomator("text(\"Animation\")").click();
             Thread.sleep(1000);
-            AndroidElement transc =  driver.findElementByAndroidUIAutomator("text(\"3D Transition\")");
-            if (transc.isEnabled())
-                transc.click();
+            AndroidElement transact =  driver.findElementByAndroidUIAutomator("text(\"3D Transition\")");
+            if (transact.isEnabled())
+                transact.click();
             Thread.sleep(1000);
             int size = driver.findElementsByAndroidUIAutomator("new UiSelector().enabled(true)").size();
             System.out.println(size);
@@ -45,8 +51,22 @@ public class AndroidTest extends BaseTest {
     }
 
     @Test
-    public void verifyMobileGesture(){
-
+    public void verifyMobileGestureTapByLocators(){
+        try{
+            driver.findElementByAndroidUIAutomator("text(\"Views\")").click();
+            Thread.sleep(1000);
+            //Tap on mobile element
+            TouchAction<?> touchAction = new TouchAction<>(driver);
+            AndroidElement dateWidget = driver.findElementByAndroidUIAutomator("text(\"Date Widgets\")");
+            touchAction.tap(tapOptions().withElement(element(dateWidget))).perform();
+            Thread.sleep(1000);
+            AndroidElement inlineMenu = driver.findElementByAndroidUIAutomator("text(\"2. Inline\")");
+            touchAction.tap(tapOptions().withElement(element(inlineMenu))).perform();
+            Thread.sleep(1000);
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
 
