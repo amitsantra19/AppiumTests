@@ -2,11 +2,9 @@ package AndroidTests;
 import Base.BaseTest;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidElement;
-import io.appium.java_client.touch.LongPressOptions;
 import io.appium.java_client.touch.offset.PointOption;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
 
 import static io.appium.java_client.touch.LongPressOptions.longPressOptions;
 import static io.appium.java_client.touch.TapOptions.tapOptions;
@@ -94,6 +92,34 @@ public class AndroidTest extends BaseTest {
                 touchAction.tap(tapOptions().withElement(element(sampleAc))).perform();
                 Thread.sleep(1000);
             } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Test
+        public void VerifyMobileGestureSwipingEvent()
+        {
+            try{
+                driver.findElementByAndroidUIAutomator("text(\"Views\")").click();
+                Thread.sleep(1000);
+                //Tap on mobile element
+                TouchAction<?> touchAction = new TouchAction<>(driver);
+                AndroidElement dateWidget = driver.findElementByAndroidUIAutomator("text(\"Date Widgets\")");
+                touchAction.tap(tapOptions().withElement(element(dateWidget))).perform();
+                Thread.sleep(1000);
+                AndroidElement inlineMenu = driver.findElementByAndroidUIAutomator("text(\"2. Inline\")");
+                touchAction.tap(tapOptions().withElement(element(inlineMenu))).perform();
+                Thread.sleep(1000);
+                // Hold the object and long press then release the object to another element
+                AndroidElement clock12 = driver.findElementByXPath("//*[@content-desc ='12']");
+                AndroidElement clock6 = driver.findElementByXPath("//*[@content-desc ='6']");
+                touchAction.longPress(longPressOptions().withElement(element(clock12)).withDuration(ofSeconds(2))).moveTo(element(clock6)).release().perform();
+                Thread.sleep(1000);
+                AndroidElement clock15 = driver.findElementByXPath("//*[@content-desc ='15']");
+                AndroidElement clock45 = driver.findElementByXPath("//*[@content-desc ='45']");
+                touchAction.longPress(longPressOptions().withElement(element(clock15)).withDuration(ofSeconds(2))).moveTo(element(clock45)).release().perform();
+                Thread.sleep(2000);
+            }catch (Exception e){
                 e.printStackTrace();
             }
         }
