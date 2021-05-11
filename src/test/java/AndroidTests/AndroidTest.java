@@ -2,11 +2,16 @@ package AndroidTests;
 import Base.BaseTest;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidElement;
+import io.appium.java_client.touch.LongPressOptions;
 import io.appium.java_client.touch.offset.PointOption;
 import org.testng.annotations.Test;
 
+import java.time.Duration;
+
+import static io.appium.java_client.touch.LongPressOptions.longPressOptions;
 import static io.appium.java_client.touch.TapOptions.tapOptions;
 import static io.appium.java_client.touch.offset.ElementOption.element;
+import static java.time.Duration.ofSeconds;
 
 public class AndroidTest extends BaseTest {
     @Test
@@ -77,15 +82,19 @@ public class AndroidTest extends BaseTest {
                 Thread.sleep(1000);
                 //Tap on mobile element
                 TouchAction<?> touchAction = new TouchAction<>(driver);
-                AndroidElement dateWidget = driver.findElementByAndroidUIAutomator("text(\"Date Widgets\")");
-                touchAction.tap(tapOptions().withElement(element(dateWidget))).perform();
+                AndroidElement expdList = driver.findElementByAndroidUIAutomator("text(\"Expandable Lists\")");
+                touchAction.tap(tapOptions().withElement(element(expdList))).perform();
                 Thread.sleep(1000);
-                AndroidElement inlineMenu = driver.findElementByAndroidUIAutomator("text(\"2. Inline\")");
-                touchAction.tap(tapOptions().withElement(element(inlineMenu))).perform();
+                AndroidElement customAdp = driver.findElementByAndroidUIAutomator("text(\"1. Custom Adapter\")");
+                touchAction.tap(tapOptions().withElement(element(customAdp))).perform();
+                Thread.sleep(1000);
+                AndroidElement peopleNames = driver.findElementByAndroidUIAutomator("text(\"People Names\")");
+                touchAction.longPress(longPressOptions().withElement(element(peopleNames)).withDuration(ofSeconds(2))).release().perform();
+                AndroidElement sampleAc = driver.findElementByAndroidUIAutomator("text(\"Sample action\")");
+                touchAction.tap(tapOptions().withElement(element(sampleAc))).perform();
                 Thread.sleep(1000);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
 }
