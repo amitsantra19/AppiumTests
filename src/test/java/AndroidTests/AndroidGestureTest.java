@@ -11,7 +11,8 @@ import static io.appium.java_client.touch.TapOptions.tapOptions;
 import static io.appium.java_client.touch.offset.ElementOption.element;
 import static java.time.Duration.ofSeconds;
 
-public class AndroidTest extends BaseTest {
+public class AndroidGestureTest extends BaseTest {
+
     @Test
     public void verifyNavigationByMenuItem() {
         try {
@@ -31,7 +32,6 @@ public class AndroidTest extends BaseTest {
             e.printStackTrace();
         }
     }
-
 
     //Using UiAutomator
     @Test
@@ -97,7 +97,7 @@ public class AndroidTest extends BaseTest {
         }
 
         @Test
-        public void VerifyMobileGestureSwipingEvent()
+        public void verifyMobileGestureSwipingEvent()
         {
             try{
                 driver.findElementByAndroidUIAutomator("text(\"Views\")").click();
@@ -123,4 +123,38 @@ public class AndroidTest extends BaseTest {
                 e.printStackTrace();
             }
         }
+
+        @Test
+        public void verifyMobileGestureScrollDown()
+        {
+            try{
+                driver.findElementByAndroidUIAutomator("text(\"Views\")").click();
+                Thread.sleep(1000);
+                String scrollElement = "new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().text(\"Progress Bar\").instance(0))";
+                driver.findElementByAndroidUIAutomator(scrollElement).click();
+                Thread.sleep(1000);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
+
+    @Test
+    public void verifyMobileGestureDragAndDrop()
+    {
+        try{
+            driver.findElementByAndroidUIAutomator("text(\"Views\")").click();
+            Thread.sleep(1000);
+            driver.findElementByXPath("//android.widget.TextView[@text='Drag and Drop']").click();
+            Thread.sleep(1000);
+            //Drag and Drop : Long press Source Object then Move to Destination Object then release and perform
+            TouchAction<?> touchAction = new TouchAction<>(driver);
+            AndroidElement sourceEle = driver.findElementById("drag_dot_1");
+            AndroidElement destinationEle = driver.findElementById("drag_dot_2");
+            touchAction.longPress(longPressOptions().withElement(element(sourceEle))).moveTo(element(destinationEle)).release().perform();
+            Thread.sleep(1000);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }
