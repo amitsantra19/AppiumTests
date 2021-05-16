@@ -1,5 +1,6 @@
 package AndroidTests;
 import Base.BaseTest;
+import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.touch.offset.PointOption;
@@ -153,6 +154,24 @@ public class AndroidGestureTest extends BaseTest {
             AndroidElement destinationEle = driver.findElementById("drag_dot_2");
             touchAction.longPress(longPressOptions().withElement(element(sourceEle))).moveTo(element(destinationEle)).release().perform();
             Thread.sleep(1000);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void verifyMobileGestureDoubleTap()
+    {
+        try{
+            driver.findElementByAndroidUIAutomator("text(\"Views\")").click();
+            Thread.sleep(1000);
+            String scrollElement = "new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().text(\"TextSwitcher\").instance(0))";
+            driver.findElementByAndroidUIAutomator(scrollElement).click();
+            Thread.sleep(1000);
+            AndroidElement nextCount = driver.findElementByAndroidUIAutomator("text(\"NEXT\")");
+            TouchAction<?> touchAction = new TouchAction<>(driver);
+            touchAction.tap(tapOptions().withElement(element(nextCount)).withTapsCount(2)).perform();
+            Thread.sleep(2000);
         }catch (Exception e){
             e.printStackTrace();
         }
