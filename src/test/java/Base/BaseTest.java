@@ -16,7 +16,7 @@ public class BaseTest {
     @BeforeSuite
     public void setUp() {
         File src = new File("src");
-        File demoApk = new File(src, "ApiDemos-debug.apk");
+        File demoApk = new File(src, "General-Store.apk");
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
         // To set up in Emulator
