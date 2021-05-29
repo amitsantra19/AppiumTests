@@ -1,6 +1,5 @@
 package AndroidTests;
 import Base.BaseTest;
-import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.touch.offset.PointOption;

@@ -18,7 +18,11 @@ public class BaseTest {
         File src = new File("src");
         File demoApk = new File(src, "ApiDemos-debug.apk");
         DesiredCapabilities capabilities = new DesiredCapabilities();
+
+        // To set up in Emulator
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "AmitEmulator:5554");
+        // To setup in real device
+        //capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Device");
         capabilities.setCapability(MobileCapabilityType.APP, demoApk.getAbsolutePath());
         try {
         driver = new AndroidDriver<>(new URL("http://127.0.1.1:4723/wd/hub"), capabilities);
