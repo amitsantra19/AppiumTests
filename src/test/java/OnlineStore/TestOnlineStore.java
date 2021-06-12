@@ -50,18 +50,30 @@ public class TestOnlineStore extends BaseTest {
 
     @Test
     public void VerifyNewItemAddedInCart(){
-        LoginToGeneralStore();
-        String scrollElement = "new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().text(\"Jordan Lift Off\").instance(0))";
-        driver.findElementByAndroidUIAutomator(scrollElement).click();
-        int count = driver.findElementsById("com.androidsample.generalstore:id/productName").size();
-        for(int i=0;i<count;i++) {
-            String text = driver.findElementsById("com.androidsample.generalstore:id/productName").get(i).getText();
-            if (text.equalsIgnoreCase("Jordan Lift Off")) {
-                driver.findElementsById("com.androidsample.generalstore:id/productAddCart").get(i).click();
-                break;
+        try{
+            LoginToGeneralStore();
+            String scrollElement = "new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().text(\"Jordan Lift Off\").instance(0))";
+            driver.findElementByAndroidUIAutomator(scrollElement).click();
+            int count = driver.findElementsById("com.androidsample.generalstore:id/productName").size();
+            for(int i=0;i<count;i++) {
+                String text = driver.findElementsById("com.androidsample.generalstore:id/productName").get(i).getText();
+                if (text.equalsIgnoreCase("Jordan Lift Off")) {
+                    driver.findElementsById("com.androidsample.generalstore:id/productAddCart").get(i).click();
+                    break;
+                }
             }
+            //Click on Cart and validate
+            driver.findElementById("com.androidsample.generalstore:id/appbar_btn_cart").click();
+            String cartItem = driver.findElementByAndroidUIAutomator("Jordan Lift Off").getText();
+            Assert.assertEquals(cartItem, "Jordan Lift Off", "Added item is not available in cart");
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
     }
+
+
 
 
     private void LoginToGeneralStore()
