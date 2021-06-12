@@ -5,6 +5,8 @@ import io.appium.java_client.android.AndroidElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class TestOnlineStore extends BaseTest {
@@ -49,9 +51,9 @@ public class TestOnlineStore extends BaseTest {
     }
 
     @Test
-    public void VerifyNewItemAddedInCart(){
+    public void verifyNewItemAddedInCart(){
         try{
-            LoginToGeneralStore();
+            loginToGeneralStore();
             String scrollElement = "new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().text(\"Jordan Lift Off\").instance(0))";
             driver.findElementByAndroidUIAutomator(scrollElement).click();
             int count = driver.findElementsById("com.androidsample.generalstore:id/productName").size();
@@ -70,19 +72,45 @@ public class TestOnlineStore extends BaseTest {
         }catch (Exception e){
             e.printStackTrace();
         }
-
     }
 
+    @Test
+    public void verifyTotalSumWhenMultipleItemsAddedToCart(){
+        loginToGeneralStore();
+        String[] productList= {"PG 3", "Jordan Lift Off"};
+        for (String product : productList) {
+            addSpecificItemToCart(product);
+        }
+        driver.findElementById("com.androidsample.generalstore:id/appbar_btn_cart").click();
+        List<AndroidElement> prices = driver.findElementsById("com.androidsample.generalstore:id/productPrice");
+        double totalSum = 0.0;
+        for (AndroidElement price : prices){
+            totalSum+= Double.parseDouble(price.getText());
+        }
+        String totalAmount = driver.findElementById("com.androidsample.generalstore:id/totalAmountLbl").getText();
+        Assert.assertEquals(totalSum, Double.parseDouble(totalAmount), "sum of Prices is not matching with total amount");
+    }
 
+    private void addSpecificItemToCart(String ProductName){
+        String scrollElement = "new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().text(\""+ ProductName + "\").instance(0))";
+        driver.findElementByAndroidUIAutomator(scrollElement);
+        int count = driver.findElementsById("com.androidsample.generalstore:id/productName").size();
+        for(int i=0;i<count;i++) {
+            String text = driver.findElementsById("com.androidsample.generalstore:id/productName").get(i).getText();
+            if (text.equalsIgnoreCase(ProductName)) {
+                driver.findElementsById("com.androidsample.generalstore:id/productAddCart").get(i).click();
+                break;
+            }
+        }
+    }
 
-
-    private void LoginToGeneralStore()
+    private void loginToGeneralStore()
     {
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.findElementById("com.androidsample.generalstore:id/spinnerCountry").click();
         String scrollElement = "new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().text(\"India\").instance(0))";
         driver.findElementByAndroidUIAutomator(scrollElement).click();
-        driver.manage().timeouts().implicitlyWait(2000, TimeUnit.MILLISECONDS);
+        driver.manage().timeouts().implicitlyWait(1000, TimeUnit.MILLISECONDS);
         driver.findElementById("com.androidsample.generalstore:id/nameField").sendKeys("Testy");
         driver.hideKeyboard();
         driver.findElementByAndroidUIAutomator("text(\"Female\")").click();
