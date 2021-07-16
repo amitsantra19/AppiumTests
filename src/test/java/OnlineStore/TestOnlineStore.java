@@ -5,7 +5,6 @@ import io.appium.java_client.android.AndroidElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -66,6 +65,7 @@ public class TestOnlineStore extends BaseTest {
             }
             //Click on Cart and validate
             driver.findElementById("com.androidsample.generalstore:id/appbar_btn_cart").click();
+            driver.manage().timeouts().implicitlyWait(1000, TimeUnit.MILLISECONDS);
             String cartItem = driver.findElementByAndroidUIAutomator("Jordan Lift Off").getText();
             Assert.assertEquals(cartItem, "Jordan Lift Off", "Added item is not available in cart");
 
